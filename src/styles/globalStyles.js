@@ -8,5 +8,6 @@ export default StyleSheet.create({
     container: {
         paddingHorizontal: 16,
         paddingBottom: 20,
+        gap: 20,
     }
 })
