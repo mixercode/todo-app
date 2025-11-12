@@ -1,6 +1,9 @@
-import React from 'react';
-import { DrawerContentScrollView, DrawerItemList } from '@react-navigation/drawer';
-import { View, Text, StyleSheet } from 'react-native';
+import React from "react";
+import {
+  DrawerContentScrollView,
+  DrawerItemList,
+} from "@react-navigation/drawer";
+import { View, Text, StyleSheet } from "react-native";
 
 export default function CustomDrawerContent(props) {
   return (
@@ -15,12 +18,12 @@ export default function CustomDrawerContent(props) {
 
 const styles = StyleSheet.create({
   header: {
-    padding: 20,
-    backgroundColor: '#1E90FF',
+    padding: 10,
+    backgroundColor: "#1E90FF",
   },
   title: {
-    color: '#fff',
+    color: "#fff",
     fontSize: 18,
-    fontWeight: '600',
+    fontWeight: "600",
   },
 });

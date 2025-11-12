@@ -22,12 +22,12 @@ export default function TaskCard({ title, status, onToggle }) {
 
 const styles = StyleSheet.create({
   card: {
+    height: 70,
     flexDirection: "row",
     alignItems: "center",
-    backgroundColor: "#f9fafb",
-    padding: 12,
+    backgroundColor: "#ffffffff",
+    padding: 10,
     borderRadius: 10,
-    marginVertical: 6,
   },
   radioOuter: {
     width: 22,

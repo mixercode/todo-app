@@ -1,7 +1,7 @@
-import React from 'react';
-import { createDrawerNavigator } from '@react-navigation/drawer';
-import HomeScreen from '../screens/HomeScreen';
-import CustomDrawerContent from '../components/CustomDrawerContent';
+import React from "react";
+import { createDrawerNavigator } from "@react-navigation/drawer";
+import HomeScreen from "../screens/HomeScreen";
+import CustomDrawerContent from "../components/CustomDrawerContent";
 
 const Drawer = createDrawerNavigator();
 
@@ -11,10 +11,10 @@ export default function DrawerNavigator() {
       drawerContent={(props) => <CustomDrawerContent {...props} />}
       screenOptions={{
         headerShown: true,
-        drawerActiveTintColor: '#1E90FF',
-        drawerInactiveTintColor: '#555',
+        drawerActiveTintColor: "#1E90FF",
+        drawerInactiveTintColor: "#555",
         drawerStyle: {
-          backgroundColor: '#fff',
+          backgroundColor: "#fff",
           width: 240,
         },
       }}

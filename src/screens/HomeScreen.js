@@ -5,33 +5,90 @@ import globalStyles from "../styles/globalStyles";
 import SearchBar from "../components/SearchBar";
 import TaskFilter from "../components/TaskFilter";
 import TaskCard from "../components/TaskCard";
-
-const TASKS = [
-  {
-    id: "1",
-    title: "Design the new onboarding flow",
-    status: "Active",
-    priority: true,
-  },
-  { id: "2", title: "Fix API error", status: "Completed", priority: false },
-  { id: "3", title: "Plan sprint backlog", status: "Active", priority: false },
-];
+import FloatingActionButton from "../components/FloatingActionButton";
 
 export default function HomeScreen() {
+  const [tasks, setTasks] = useState([
+    {
+      id: "1",
+      title: "Design the new onboarding flow",
+      status: "Active",
+      priority: true,
+    },
+    { id: "2", title: "Fix API error", status: "Completed", priority: false },
+    {
+      id: "3",
+      title: "Plan sprint backlog",
+      status: "Active",
+      priority: false,
+    },
+    {
+      id: "4",
+      title: "Design the new onboarding flow",
+      status: "Active",
+      priority: true,
+    },
+    { id: "5", title: "Fix API error", status: "Completed", priority: false },
+    {
+      id: "6",
+      title: "Plan sprint backlog",
+      status: "Active",
+      priority: false,
+    },
+    {
+      id: "7",
+      title: "Design the new onboarding flow",
+      status: "Active",
+      priority: true,
+    },
+    { id: "8", title: "Fix API error", status: "Completed", priority: false },
+    {
+      id: "9",
+      title: "Plan sprint backlog",
+      status: "Active",
+      priority: false,
+    },
+    {
+      id: "10",
+      title: "Design the new onboarding flow",
+      status: "Active",
+      priority: true,
+    },
+    { id: "11", title: "Fix API error", status: "Completed", priority: false },
+    {
+      id: "12",
+      title: "Plan sprint backlog",
+      status: "Active",
+      priority: false,
+    },
+  ]);
   const [filter, setFilter] = useState("Todos");
 
   const filteredTasks = useMemo(() => {
     switch (filter) {
       case "Todos":
-        return TASKS;
+        return tasks;
       case "Activos":
-        return TASKS.filter((t) => t.status === "Active");
+        return tasks.filter((t) => t.status === "Active");
       case "Completados":
-        return TASKS.filter((t) => t.status === "Completed");
+        return tasks.filter((t) => t.status === "Completed");
       default:
-        return TASKS;
+        return tasks;
     }
   }, [filter]);
+
+  const handleToggleTask = (id) => {
+    setTasks((prev) =>
+      prev.map((task) =>
+        task.id === id
+          ? {
+              ...task,
+              status: task.status === "Activo" ? "Completado" : "Activo",
+            }
+          : task
+      )
+    );
+  };
 
   const getFormattedDate = () => {
     const date = new Date();
@@ -48,7 +105,7 @@ export default function HomeScreen() {
   };
 
   return (
-    <SafeAreaView style={globalStyles.safeArea}>
+    <View style={globalStyles.safeArea}>
       <ScrollView contentContainerStyle={globalStyles.container}>
         <View style={styles.header}>
           <Text style={styles.title}>{getFormattedDate()}</Text>
@@ -60,10 +117,16 @@ export default function HomeScreen() {
         <TaskFilter selectedFilter={filter} onChangeFilter={setFilter} />
 
         {filteredTasks.map((task) => (
-          <TaskCard key={task.id} title={task.title} status={task.status} />
+          <TaskCard
+            key={task.id}
+            title={task.title}
+            status={task.status}
+            onToggle={() => handleToggleTask(task.id)}
+          />
         ))}
       </ScrollView>
-    </SafeAreaView>
+      <FloatingActionButton />
+    </View>
   );
 }
 
