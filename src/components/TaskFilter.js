@@ -1,11 +1,11 @@
 import React from "react";
-import { View, Text, TouchableOpacity } from "react-native";
+import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 
 const FILTERS = ["Todos", "Activos", "Completados"];
 
 export default function TaskFilter({ selectedFilter, onChangeFilter }) {
   return (
-    <View styyle={styles.container}>
+    <View style={styles.container}>
       {FILTERS.map((filter) => {
         const isActive = selectedFilter === filter;
 
@@ -28,7 +28,7 @@ export default function TaskFilter({ selectedFilter, onChangeFilter }) {
 const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
-    jusifyContent: "space-between",
+    justifyContent: "space-around",
     paddingHorizontal: 10,
     marginVertical: 10,
   },
@@ -44,7 +44,7 @@ const styles = StyleSheet.create({
     color: "#111827",
     fontWeight: "500",
   },
-  activeButto: {
+  activeButton: {
     backgroundColor: "#1E90FF",
   },
   activeText: {
