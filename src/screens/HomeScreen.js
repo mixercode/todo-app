@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from "react";
 import { View, Text, StyleSheet, ScrollView } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { useNavigation } from "@react-navigation/native";
 import globalStyles from "../styles/globalStyles";
 import SearchBar from "../components/SearchBar";
 import TaskFilter from "../components/TaskFilter";
@@ -8,6 +8,7 @@ import TaskCard from "../components/TaskCard";
 import FloatingActionButton from "../components/FloatingActionButton";
 
 export default function HomeScreen() {
+  const navigation = useNavigation();
   const [tasks, setTasks] = useState([
     {
       id: "1",
@@ -125,7 +126,7 @@ export default function HomeScreen() {
           />
         ))}
       </ScrollView>
-      <FloatingActionButton />
+      <FloatingActionButton onPress={() => navigation.navigate("TaskForm")} />
     </View>
   );
 }
