@@ -6,63 +6,13 @@ import SearchBar from "../components/SearchBar";
 import TaskFilter from "../components/TaskFilter";
 import TaskCard from "../components/TaskCard";
 import FloatingActionButton from "../components/FloatingActionButton";
+import useTasks from "../hooks/useTasks";
 
 export default function HomeScreen() {
   const navigation = useNavigation();
-  const [tasks, setTasks] = useState([
-    {
-      id: "1",
-      title: "Design the new onboarding flow",
-      status: "Active",
-      priority: true,
-    },
-    { id: "2", title: "Fix API error", status: "Completed", priority: false },
-    {
-      id: "3",
-      title: "Plan sprint backlog",
-      status: "Active",
-      priority: false,
-    },
-    {
-      id: "4",
-      title: "Design the new onboarding flow",
-      status: "Active",
-      priority: true,
-    },
-    { id: "5", title: "Fix API error", status: "Completed", priority: false },
-    {
-      id: "6",
-      title: "Plan sprint backlog",
-      status: "Active",
-      priority: false,
-    },
-    {
-      id: "7",
-      title: "Design the new onboarding flow",
-      status: "Active",
-      priority: true,
-    },
-    { id: "8", title: "Fix API error", status: "Completed", priority: false },
-    {
-      id: "9",
-      title: "Plan sprint backlog",
-      status: "Active",
-      priority: false,
-    },
-    {
-      id: "10",
-      title: "Design the new onboarding flow",
-      status: "Active",
-      priority: true,
-    },
-    { id: "11", title: "Fix API error", status: "Completed", priority: false },
-    {
-      id: "12",
-      title: "Plan sprint backlog",
-      status: "Active",
-      priority: false,
-    },
-  ]);
+  const { tasks, loading, addTask, toggleTask, deleteTask, clearTasks } =
+    useTasks();
+
   const [filter, setFilter] = useState("Todos");
 
   const filteredTasks = useMemo(() => {
@@ -77,19 +27,6 @@ export default function HomeScreen() {
         return tasks;
     }
   }, [filter]);
-
-  const handleToggleTask = (id) => {
-    setTasks((prev) =>
-      prev.map((task) =>
-        task.id === id
-          ? {
-              ...task,
-              status: task.status === "Activo" ? "Completado" : "Activo",
-            }
-          : task
-      )
-    );
-  };
 
   const getFormattedDate = () => {
     const date = new Date();

@@ -24,7 +24,7 @@ export default function Input({
         placeholder={placeholder}
         placeholderTextColor="#6b7280"
         value={value}
-        onChange={onChangeText}
+        onChangeText={onChangeText}
         multiline={isTextArea}
         onFocus={() => setIsFocused(true)}
         onBlur={() => setIsFocused(false)}

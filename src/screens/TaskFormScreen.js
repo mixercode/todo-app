@@ -1,13 +1,27 @@
-import React from "react";
+import React, { useState } from "react";
 import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useNavigation } from "@react-navigation/native";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import globalStyles from "../styles/globalStyles";
 import Input from "../components/Input";
+import DateInput from "../components/DateInput";
+import Button from "../components/Button";
+import useTasks from "../hooks/useTasks";
 
 export default function TaskFormScreen() {
   const navigation = useNavigation();
+  const [date, setDate] = useState(null);
+  const [titulo, setTitulo] = useState("");
+  const [descripcion, setDescripcion] = useState("");
+  const { tasks, loading, addTask, toggleTask, deleteTask, clearTasks } =
+    useTasks();
+
+  const handleAddTask = (title) => {
+    addTask(title);
+    navigation.goBack();
+  };
+
   return (
     <SafeAreaView style={globalStyles.safeArea}>
       <View style={styles.header}>
@@ -17,13 +31,37 @@ export default function TaskFormScreen() {
         <Text style={styles.headerTitle}>Nueva tarea</Text>
       </View>
       <View style={styles.body}>
-        <Input label="Titulo" placeholder="Hacer tarea de matematicas" />
+        <Input
+          label="Titulo"
+          placeholder="Hacer tarea de matematicas"
+          value={titulo}
+          onChangeText={setTitulo}
+        />
         <Input
           label="Descripcion"
           placeholder="Agrega un descripcion"
           inputType="textarea"
+          value={descripcion}
+          onChangeText={setDescripcion}
         />
-        <Input type="date" />
+
+        <DateInput
+          label="Fecha de vencimiento"
+          value={date}
+          onChange={setDate}
+        />
+      </View>
+      <View style={styles.buttonContainer}>
+        <Button
+          buttonType="secondary"
+          text="Cancelar"
+          onPress={() => navigation.goBack()}
+        />
+        <Button
+          buttonType="primary"
+          text="Añadir"
+          onPress={() => handleAddTask(titulo)}
+        />
       </View>
     </SafeAreaView>
   );
@@ -48,5 +86,12 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 16,
     gap: 20,
+  },
+  buttonContainer: {
+    flexDirection: "row",
+    gap: 12,
+    padding: 16,
+    borderTopWidth: 1,
+    borderTopColor: "#e0e0e0",
   },
 });

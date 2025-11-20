@@ -22,7 +22,7 @@ export default function useTasks() {
     const newTask = {
       id: Date.now().toString(),
       title,
-      status: "Pending",
+      status: "Active",
       createdAt: new Date().toISOString(),
     };
     setTasks((prev) => [...prev, newTask]);
