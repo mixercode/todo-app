@@ -73,7 +73,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#ffffff",
     borderRadius: 10,
     borderWidth: 1,
-    borderColor: "#d1d5db",
+    borderColor: "#929292ff",
   },
   inputText: {
     fontSize: 16,

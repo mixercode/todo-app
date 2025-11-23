@@ -50,12 +50,12 @@ const styles = StyleSheet.create({
     backgroundColor: "#ffffff",
     borderWidth: 1,
     borderRadius: 10,
-    borderColor: "#d1d5db",
+    borderColor: "#929292ff",
     paddingHorizontal: 14,
     fontSize: 16,
   },
   textArea: {
-    paddingTop_: 12,
+    paddingTop: 12,
     textAlignVertical: "top",
   },
   inputFocused: {

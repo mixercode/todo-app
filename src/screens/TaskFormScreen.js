@@ -7,15 +7,14 @@ import globalStyles from "../styles/globalStyles";
 import Input from "../components/Input";
 import DateInput from "../components/DateInput";
 import Button from "../components/Button";
-import useTasks from "../hooks/useTasks";
+import { useTasksContext } from "../context/TasksContext";
 
 export default function TaskFormScreen() {
   const navigation = useNavigation();
   const [date, setDate] = useState(null);
   const [titulo, setTitulo] = useState("");
   const [descripcion, setDescripcion] = useState("");
-  const { tasks, loading, addTask, toggleTask, deleteTask, clearTasks } =
-    useTasks();
+  const { addTask } = useTasksContext();
 
   const handleAddTask = (title) => {
     addTask(title);

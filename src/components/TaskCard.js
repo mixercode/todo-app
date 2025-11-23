@@ -47,7 +47,7 @@ const styles = StyleSheet.create({
   },
   title: {
     flex: 1,
-    fontSize: 16,
+    fontSize: 20,
     color: "#111827",
   },
   completedText: {

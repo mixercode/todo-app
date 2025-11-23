@@ -7,22 +7,24 @@ export default function useTasks() {
 
   useEffect(() => {
     const fetchTasks = async () => {
-      setLoading(false);
       const saved = await loadTasks();
       setTasks(saved);
+      setLoading(false);
     };
     fetchTasks();
   }, []);
 
   useEffect(() => {
-    if (!loading) saveTasks(tasks);
-  }, [tasks]);
+    if (!loading) {
+      saveTasks(tasks);
+    }
+  }, [tasks, loading]);
 
   const addTask = useCallback((title) => {
     const newTask = {
       id: Date.now().toString(),
       title,
-      status: "Active",
+      status: "Pending",
       createdAt: new Date().toISOString(),
     };
     setTasks((prev) => [...prev, newTask]);

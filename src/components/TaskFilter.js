@@ -1,7 +1,7 @@
 import React from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 
-const FILTERS = ["Todos", "Activos", "Completados"];
+const FILTERS = ["Todos", "Pendientes", "Completados"];
 
 export default function TaskFilter({ selectedFilter, onChangeFilter }) {
   return (
@@ -39,6 +39,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     backgroundColor: "#f3f4f6",
     alignItems: "center",
+    borderWidth: 0.1,
   },
   text: {
     color: "#111827",
