@@ -6,11 +6,11 @@ export default function Input({
   placeholder = "placeholder",
   value,
   onChangeText,
-  height = 50,
   inputType = "text",
+  multiline = false,
 }) {
   const [isFocused, setIsFocused] = useState(false);
-  const isTextArea = inputType === "textarea";
+  const isTextArea = inputType === "textarea" || multiline;
   return (
     <View style={styles.container}>
       <Text style={styles.label}>{label}</Text>
@@ -18,17 +18,17 @@ export default function Input({
         style={[
           styles.input,
           isTextArea && styles.textArea,
-          { height: isTextArea ? 100 : height },
           isFocused && styles.inputFocused,
         ]}
         placeholder={placeholder}
-        placeholderTextColor="#6b7280"
+        placeholderTextColor="#9ca3af"
         value={value}
         onChangeText={onChangeText}
         multiline={isTextArea}
         onFocus={() => setIsFocused(true)}
         onBlur={() => setIsFocused(false)}
         autoCapitalize={true}
+        accessibilityLabel={label}
       />
     </View>
   );
@@ -37,10 +37,10 @@ export default function Input({
 const styles = StyleSheet.create({
   container: {
     width: "100%",
-    marginBottom: 16,
+    marginBottom: 18,
   },
   label: {
-    fontSize: 16,
+    fontSize: 15,
     marginBottom: 6,
     fontWeight: "500",
     color: "#374151",
@@ -48,17 +48,25 @@ const styles = StyleSheet.create({
   input: {
     width: "100%",
     backgroundColor: "#ffffff",
-    borderWidth: 1,
+    borderWidth: 1.5,
     borderRadius: 10,
-    borderColor: "#929292ff",
+    borderColor: "#d1d5db",
     paddingHorizontal: 14,
+    paddingVertical: 12,
     fontSize: 16,
+    color: "111827",
   },
   textArea: {
-    paddingTop: 12,
+    minHeight: 110,
     textAlignVertical: "top",
+    paddingTop: 14,
+    paddingBottom: 14,
   },
   inputFocused: {
-    borderColor: "#3b82f6",
+    borderColor: "#2563eb",
+    shadowColor: "#2563eb",
+    shadowOpacity: 0.12,
+    shadowRadius: 4,
+    shadowOffset: { width: 0, height: 2 },
   },
 });

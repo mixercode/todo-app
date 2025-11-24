@@ -21,24 +21,27 @@ export default function DateInput({
 
   const handleChange = (_, selectedDate) => {
     setShowPicker(false);
-
     if (selectedDate) {
       onChange(selectedDate);
     }
   };
+
+  const isActive = showPicker;
 
   return (
     <View style={styles.container}>
       <Text style={styles.label}>{label}</Text>
 
       <TouchableOpacity
-        style={styles.input}
+        style={[styles.input, isActive && styles.inputActive]}
         onPress={() => setShowPicker(true)}
+        activeOpacity={0.7}
       >
-        <Text style={styles.inputText}>
-          {value ? formatDate(value) : "mm/dd/aaaa"}
+        <Text style={[styles.inputText, !value && styles.placeholderText]}>
+          {value ? formatDate(value) : "dd/mm/aaaa"}
         </Text>
-        <FontAwesome name="calendar-o" size={24} color="black" />
+
+        <FontAwesome name="calendar-o" size={22} color="#6b7280" />
       </TouchableOpacity>
 
       {showPicker && (
@@ -56,10 +59,10 @@ export default function DateInput({
 const styles = StyleSheet.create({
   container: {
     width: "100%",
-    marginBottom: 16,
+    marginBottom: 20,
   },
   label: {
-    fontSize: 16,
+    fontSize: 15,
     marginBottom: 6,
     fontWeight: "500",
     color: "#374151",
@@ -72,11 +75,21 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     backgroundColor: "#ffffff",
     borderRadius: 10,
-    borderWidth: 1,
-    borderColor: "#929292ff",
+    borderWidth: 1.5,
+    borderColor: "#d1d5db",
+  },
+  inputActive: {
+    borderColor: "#2563eb",
+    shadowColor: "#2563eb",
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    shadowOffset: { width: 0, height: 2 },
   },
   inputText: {
     fontSize: 16,
     color: "#111827",
+  },
+  placeholderText: {
+    color: "#9ca3af",
   },
 });

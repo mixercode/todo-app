@@ -12,10 +12,10 @@ export default function TaskFilter({ selectedFilter, onChangeFilter }) {
         return (
           <TouchableOpacity
             key={filter}
-            style={[styles.button, isActive && styles.activeButton]}
+            style={[styles.option, isActive && styles.activeOption]}
             onPress={() => onChangeFilter(filter)}
           >
-            <Text style={[styles.text, isActive && styles.activeText]}>
+            <Text style={[styles.label, isActive && styles.activeLabel]}>
               {filter}
             </Text>
           </TouchableOpacity>
@@ -28,27 +28,30 @@ export default function TaskFilter({ selectedFilter, onChangeFilter }) {
 const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
-    justifyContent: "space-around",
-    paddingHorizontal: 10,
+    backgroundColor: "#f3f4f6",
+    padding: 6,
+    borderRadius: 12,
     marginVertical: 10,
   },
-  button: {
+  option: {
     flex: 1,
-    paddingVertical: 8,
-    marginHorizontal: 5,
-    borderRadius: 8,
-    backgroundColor: "#f3f4f6",
+    paddingVertical: 10,
     alignItems: "center",
-    borderWidth: 0.1,
+    borderRadius: 10,
   },
-  text: {
-    color: "#111827",
+  label: {
+    color: "#4b5563",
+    fontSize: 14,
     fontWeight: "500",
   },
-  activeButton: {
+  activeOption: {
     backgroundColor: "#1E90FF",
+    shadowColor: "#1e90ff",
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    shadowOffset: { width: 0, height: 2 },
   },
-  activeText: {
+  activeLabel: {
     color: "#fff",
     fontWeight: "600",
   },

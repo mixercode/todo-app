@@ -1,57 +1,94 @@
 import React from "react";
-import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  StyleSheet,
+  Pressable,
+} from "react-native";
 import SimpleLineIcons from "@expo/vector-icons/SimpleLineIcons";
 
 export default function TaskCard({ title, status, onToggle }) {
+  const isCompleted = status === "Completed";
   return (
-    <View style={styles.card}>
-      <TouchableOpacity onPress={onToggle} style={styles.radioOuter}>
-        {status === "Completed" && <View style={styles.radioInner} />}
-      </TouchableOpacity>
+    <Pressable
+      style={({ pressed }) => [styles.card, pressed && styles.cardPressed]}
+    >
+      <Pressable onPress={onToggle} style={styles.checkboxContainer}>
+        <View
+          style={[
+            styles.checkboxOuter,
+            isCompleted && styles.checkboxOuterActive,
+          ]}
+        >
+          {isCompleted && <View style={styles.checkboxInner} />}
+        </View>
+      </Pressable>
       <Text
-        style={[styles.title, status === "Completed" && styles.completedText]}
+        numberOfLines={1}
+        style={[styles.title, isCompleted && styles.titleCompleted]}
       >
         {title}
       </Text>
-      <TouchableOpacity>
-        <SimpleLineIcons name="options-vertical" size={22} color="gray" />
-      </TouchableOpacity>
-    </View>
+    </Pressable>
   );
 }
 
 const styles = StyleSheet.create({
   card: {
-    height: 70,
+    height: 72,
     flexDirection: "row",
     alignItems: "center",
-    backgroundColor: "#ffffffff",
-    padding: 10,
-    borderRadius: 10,
+    backgroundColor: "#fff",
+    paddingHorizontal: 14,
+    borderRadius: 12,
+    marginVertical: 6,
+    shadowColor: "#000",
+    shadowOpacity: 0.05,
+    shadowRadius: 4,
+    shadowOffset: { width: 0, height: 2 },
+    elevation: 1,
   },
-  radioOuter: {
-    width: 22,
-    height: 22,
-    borderRadius: 11,
+  cardPressed: {
+    opacity: 0.95,
+  },
+
+  checkboxContainer: {
+    marginRight: 14,
+  },
+
+  checkboxOuter: {
+    width: 24,
+    height: 24,
+    borderRadius: 12,
     borderWidth: 2,
-    borderColor: "#137fec",
-    alignItems: "center",
+    borderColor: "#1E90FF",
     justifyContent: "center",
-    marginRight: 12,
+    alignItems: "center",
   },
-  radioInner: {
+  checkboxOuterActive: {
+    borderColor: "#1E90FF",
+    backgroundColor: "#e0f0ff",
+  },
+  checkboxInner: {
     width: 12,
     height: 12,
     borderRadius: 6,
-    backgroundColor: "#137fec",
+    backgroundColor: "#1E90FF",
   },
+
   title: {
     flex: 1,
-    fontSize: 20,
+    fontSize: 16,
     color: "#111827",
+    fontWeight: "500",
   },
-  completedText: {
+  titleCompleted: {
     textDecorationLine: "line-through",
     color: "#6b7280",
+  },
+
+  iconPressed: {
+    opacity: 0.4,
   },
 });
