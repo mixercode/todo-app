@@ -1,7 +1,14 @@
 import React, { useState } from "react";
-import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
+import {
+  StyleSheet,
+  View,
+  Text,
+  TouchableOpacity,
+  Keyboard,
+  TouchableWithoutFeedback,
+} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import globalStyles from "../styles/globalStyles";
 import Input from "../components/Input";
@@ -11,58 +18,83 @@ import { useTasksContext } from "../context/TasksContext";
 
 export default function TaskFormScreen() {
   const navigation = useNavigation();
-  const [date, setDate] = useState(null);
-  const [titulo, setTitulo] = useState("");
-  const [descripcion, setDescripcion] = useState("");
-  const { addTask } = useTasksContext();
+  const route = useRoute();
+  const { addTask, updateTask } = useTasksContext();
 
-  const handleAddTask = (title) => {
-    addTask(title);
+  const editingTask = route.params?.task || null;
+  const isEditing = Boolean(editingTask);
+
+  const [title, setTitle] = useState(editingTask?.title || "");
+  const [description, setDescription] = useState(
+    editingTask?.description || ""
+  );
+  const [dueDate, setDueDate] = useState(editingTask?.dueDate || null);
+
+  const handleSubmit = () => {
+    if (isEditing) {
+      updateTask({
+        ...editingTask,
+        title,
+        description,
+        dueDate,
+      });
+    } else {
+      addTask({
+        title,
+        description,
+        dueDate,
+      });
+    }
     navigation.goBack();
   };
 
   return (
-    <SafeAreaView style={globalStyles.safeArea}>
-      <View style={styles.header}>
-        <TouchableOpacity onPress={() => navigation.goBack()}>
-          <AntDesign name="close" size={24} color="black" />
-        </TouchableOpacity>
-        <Text style={styles.headerTitle}>Nueva tarea</Text>
-      </View>
-      <View style={styles.body}>
-        <Input
-          label="Titulo"
-          placeholder="Hacer tarea de matematicas"
-          value={titulo}
-          onChangeText={setTitulo}
-        />
-        <Input
-          label="Descripcion"
-          placeholder="Agrega un descripcion"
-          inputType="textarea"
-          value={descripcion}
-          onChangeText={setDescripcion}
-        />
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+      <SafeAreaView style={globalStyles.safeArea}>
+        <View style={styles.header}>
+          <TouchableOpacity onPress={() => navigation.goBack()}>
+            <AntDesign name="close" size={24} color="black" />
+          </TouchableOpacity>
+          <Text style={styles.headerTitle}>
+            {isEditing ? "Editar Tarea" : "Nueva tarea"}
+          </Text>
+        </View>
 
-        <DateInput
-          label="Fecha de vencimiento"
-          value={date}
-          onChange={setDate}
-        />
-      </View>
-      <View style={styles.buttonContainer}>
-        <Button
-          buttonType="secondary"
-          text="Cancelar"
-          onPress={() => navigation.goBack()}
-        />
-        <Button
-          buttonType="primary"
-          text="Añadir"
-          onPress={() => handleAddTask(titulo)}
-        />
-      </View>
-    </SafeAreaView>
+        <View style={styles.body}>
+          <Input
+            label="Titulo"
+            placeholder="Hacer tarea de matematicas"
+            value={title}
+            onChangeText={setTitle}
+          />
+          <Input
+            label="Descripcion"
+            placeholder="Agrega un descripcion"
+            inputType="textarea"
+            value={description}
+            onChangeText={setDescription}
+          />
+
+          <DateInput
+            label="Fecha de vencimiento"
+            value={dueDate}
+            onChange={setDueDate}
+          />
+        </View>
+        <View style={styles.buttonContainer}>
+          <Button
+            buttonType="secondary"
+            text="Cancelar"
+            onPress={() => navigation.goBack()}
+          />
+          <Button
+            buttonType="primary"
+            text={isEditing ? "Guardar cambios" : "Añadir"}
+            onPress={handleSubmit}
+          />
+        </View>
+      </SafeAreaView>
+    </TouchableWithoutFeedback>
   );
 }
 

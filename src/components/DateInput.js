@@ -4,52 +4,92 @@ import DateTimePicker from "@react-native-community/datetimepicker";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 
 export default function DateInput({
-  label = "Seleccionar fecha",
+  label = "Seleccionar fecha y hora",
   value,
   onChange,
 }) {
   const [showPicker, setShowPicker] = useState(false);
+  const [pickerMode, setPickerMode] = useState("date");
 
-  const formatDate = (date) => {
-    if (!date) return "";
-    return date.toLocaleDateString("es-MX", {
-      day: "2-digit",
-      month: "2-digit",
-      year: "numeric",
-    });
+  const ensureDateInstance = (val) => {
+    if (!val) return new Date();
+    return val instanceof Date ? val : new Date(val);
   };
 
-  const handleChange = (_, selectedDate) => {
-    setShowPicker(false);
-    if (selectedDate) {
-      onChange(selectedDate);
+  const formatDateTime = (date) => {
+    if (!date) return "";
+
+    const day = date.getDate().toString().padStart(2, "0");
+    const month = (date.getMonth() + 1).toString().padStart(2, "0");
+    const year = date.getFullYear();
+
+    let hours = date.getHours();
+    const minutes = date.getMinutes().toString().padStart(2, "0");
+
+    const ampm = hours >= 12 ? "PM" : "AM";
+    hours = hours % 12 || 12;
+
+    return `${hours}:${minutes} ${ampm} ${day}/${month}/${year}`;
+  };
+
+  const handleDateSelected = (_, selected) => {
+    if (!selected) {
+      setShowPicker(false);
+      return;
+    }
+
+    const current = new Date(selected);
+
+    // Si es fecha → abrir hora
+    if (pickerMode === "date") {
+      setPickerMode("time");
+      onChange(current);
+      return;
+    }
+
+    // Si seleccionamos hora, terminamos
+    if (pickerMode === "time") {
+      const prev = ensureDateInstance(value);
+      prev.setHours(current.getHours(), current.getMinutes());
+      onChange(new Date(prev));
+
+      setShowPicker(false);
+      setPickerMode("date");
     }
   };
 
-  const isActive = showPicker;
+  const openPicker = () => {
+    setPickerMode("date");
+    setShowPicker(true);
+  };
+
+  const selectedDate = ensureDateInstance(value);
 
   return (
     <View style={styles.container}>
       <Text style={styles.label}>{label}</Text>
 
+      {/* Input visual */}
       <TouchableOpacity
-        style={[styles.input, isActive && styles.inputActive]}
-        onPress={() => setShowPicker(true)}
+        style={[styles.input, showPicker && styles.inputActive]}
+        onPress={openPicker}
         activeOpacity={0.7}
       >
         <Text style={[styles.inputText, !value && styles.placeholderText]}>
-          {value ? formatDate(value) : "dd/mm/aaaa"}
+          {value ? formatDateTime(selectedDate) : "hh:mm - dd/mm/aaaa"}
         </Text>
 
         <FontAwesome name="calendar-o" size={22} color="#6b7280" />
       </TouchableOpacity>
 
+      {/* Date + Time Picker */}
       {showPicker && (
         <DateTimePicker
-          value={value || new Date()}
-          mode="date"
+          value={selectedDate}
+          mode={pickerMode}
           display="default"
-          onChange={handleChange}
+          onChange={handleDateSelected}
+          is24Hour={false}
         />
       )}
     </View>

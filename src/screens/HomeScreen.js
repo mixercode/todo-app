@@ -53,8 +53,7 @@ export default function HomeScreen() {
         {filteredTasks.map((task) => (
           <TaskCard
             key={task.id}
-            title={task.title}
-            status={task.status}
+            task={task}
             onToggle={() => handleToggleTask(task.id)}
           />
         ))}

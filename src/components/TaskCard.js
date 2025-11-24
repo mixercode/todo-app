@@ -1,17 +1,31 @@
-import React from "react";
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  StyleSheet,
-  Pressable,
-} from "react-native";
-import SimpleLineIcons from "@expo/vector-icons/SimpleLineIcons";
+import { View, Text, StyleSheet, Pressable } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 
-export default function TaskCard({ title, status, onToggle }) {
-  const isCompleted = status === "Completed";
+export default function TaskCard({ task, onToggle }) {
+  const navigation = useNavigation();
+
+  const formatDate = (isoString) => {
+    const date = new Date(isoString);
+
+    const time = new Intl.DateTimeFormat("es-MX", {
+      timeStyle: "short",
+    }).format(date);
+
+    const day = new Intl.DateTimeFormat("es-MX", {
+      dateStyle: "short",
+    }).format(date);
+
+    return `${time} ${day}`;
+  };
+
+  const handleEditTask = () => {
+    navigation.navigate("TaskForm", { task });
+  };
+
+  const isCompleted = task.status === "Completed";
   return (
     <Pressable
+      onPress={() => handleEditTask()}
       style={({ pressed }) => [styles.card, pressed && styles.cardPressed]}
     >
       <Pressable onPress={onToggle} style={styles.checkboxContainer}>
@@ -28,7 +42,13 @@ export default function TaskCard({ title, status, onToggle }) {
         numberOfLines={1}
         style={[styles.title, isCompleted && styles.titleCompleted]}
       >
-        {title}
+        {task.title}
+      </Text>
+      <Text
+        numberOfLines={1}
+        style={[styles.title, isCompleted && styles.titleCompleted]}
+      >
+        {formatDate(task.dueDate)}
       </Text>
     </Pressable>
   );
@@ -42,7 +62,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     paddingHorizontal: 14,
     borderRadius: 12,
-    marginVertical: 6,
+
     shadowColor: "#000",
     shadowOpacity: 0.05,
     shadowRadius: 4,

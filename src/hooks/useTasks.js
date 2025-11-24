@@ -7,8 +7,8 @@ export default function useTasks() {
 
   useEffect(() => {
     const fetchTasks = async () => {
-      const saved = await loadTasks();
-      setTasks(saved);
+      const savedTasks = await loadTasks();
+      setTasks(savedTasks);
       setLoading(false);
     };
     fetchTasks();
@@ -20,14 +20,23 @@ export default function useTasks() {
     }
   }, [tasks, loading]);
 
-  const addTask = useCallback((title) => {
+  const addTask = useCallback(({ title, description, dueDate }) => {
+    if (!title.trim()) return;
+
     const newTask = {
       id: Date.now().toString(),
       title,
+      description,
       status: "Pending",
-      createdAt: new Date().toISOString(),
+      dueDate,
     };
     setTasks((prev) => [...prev, newTask]);
+  }, []);
+
+  const updateTask = useCallback((updateTask) => {
+    setTasks((prev) =>
+      prev.map((t) => (t.id === updateTask.id ? { ...t, ...updateTask } : t))
+    );
   }, []);
 
   const toggleTask = useCallback((id) => {
@@ -50,6 +59,7 @@ export default function useTasks() {
     tasks,
     loading,
     addTask,
+    updateTask,
     toggleTask,
     deleteTask,
     clearTasks,
